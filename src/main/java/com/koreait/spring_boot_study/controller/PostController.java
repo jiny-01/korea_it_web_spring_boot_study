@@ -1,6 +1,7 @@
 package com.koreait.spring_boot_study.controller;
 
 import com.koreait.spring_boot_study.service.PostService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,8 +37,28 @@ import org.springframework.web.bind.annotation.RestController;
 
 public class PostController {
 
-    private final PostService postService;     //상수로 정의
 
+    @Autowired
+    private PostService postService;
+    //1) @Autowired  - 생성자로 하는 대신 이 어노테이션 사용해서 주입 가능
+    //              필요한 객체를 자동으로 주입해주는 어노테이션
+    //              PostService 를 주입되기 전 시점에서 사용하면 NPE 발생 가능
+    //              nullpointerException 발생 가능성 높음
+
+    //2) 생성자로 하는 방식 - 권장, 안정적(명시되어 있기 때문에 무조건)
+//    private final PostService postService;     //상수로 정의
+
+//    public PostController(PostService postService) {
+//        this.postService = postService;
+//    }
+    //생성자 방식이 더 권장된다 => 명시적이고 명확
+    //final 이 있기에 불변을 보장
+    //생성자로 주입하면 객체가 생성될 떄 필수로 의존성을 받아야함
+    //그러면 이후에 그 의존성을 바꿀 수 없어 안정적
+    //애초에 객체 생성이 되기도 전에 생성자를 통해 주입이 완료됨, 생성 전부터 준비가 완료됨
+
+
+    //매개변수로 들어오는 PostService의 객체는 스프링이 알아서 만들어준 것
     //IOC(Inversion Of Control, 제어의 역전)
     //객체 생성과 제어의 주도권을 개발자가 아닌, 스프링부트가 갖는 것
     //스프링부트는 내가 만든 객체를 다 가지고 있을 것 -> IOC container 에 담아둠
@@ -49,10 +70,7 @@ public class PostController {
     //DI(Dependency Injection, 의존성 주입)
     //필요한 객체(의존성)를 직접 만들지 않고 외부(스프링부트)에서 대신 넣어주는 것(행위)
 
-    public PostController(PostService postService) {
-        this.postService = postService;
-    }
-    //매개변수로 들어오는 PostService의 객체는 스프링이 알아서 만들어준 것
+
 
     @GetMapping("/get")
     public String getPost() {
