@@ -104,7 +104,7 @@ public class AuthController {
 
 
     //포스트맨 Body - raw - json 선택
-    // send 시 객체 생성자 이름과 보낸 정보의 키(JSon의 키) 이름 일치해야함
+    // send 시 객체 생성자 이름과 보낸 정보의 키(Json의 키) 이름 일치해야함
     //header 에 content type 있어야함
 
 
