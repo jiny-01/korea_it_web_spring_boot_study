@@ -1,5 +1,7 @@
 package com.koreait.spring_boot_study.controller;
 
+import com.koreait.spring_boot_study.dto.SigninReqDto;
+import com.koreait.spring_boot_study.dto.SignupReqDto;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,7 +12,7 @@ public class AuthController {
     //RequestParam (쿼리스트링)
     //클라이언트가 URL 쿼리스트링으로 넘긴 값을 메소드 파라미터로 전달
 
-    @GetMapping("/get")
+    @GetMapping("/get")                //헤더에 내가 입력한 값을 그대로 url로 전송
     public String getUser(@RequestParam String userId) {
         System.out.println("RequestParam 으로 들어온 값 : " + userId);
         return "RequestParam 으로 들어온 값 : " + userId;        //서버에 표시될 내용
@@ -22,6 +24,11 @@ public class AuthController {
             (@RequestParam(value = "name", defaultValue = "홍길동") String username, @RequestParam(required = false) Integer age) {
         System.out.println(username + age);
         return username + age;
+
+        //@GetMapping -> 헤더에 내가 입력한 값을 그대로 url로 전송
+        //@PostMapping -> 패킷에 입력한 값이 숨겨져서 전달
+
+
 
         //@RequestParam - Get 으로 호출할 때 사용
         //http://localhost:8080/auth/get/name?
@@ -86,14 +93,29 @@ public class AuthController {
     //이름명 - 메소드 이름 따서 만듦 보통
     //request dto(req)  /   response dto(res)
 
-    //DTO 패키지에 SignupReqDto 만들어서 회원가입 시 받을 데이터 객체로 생성
+    //DTO 패키지에 SignupReqDto 만들어서 회원가입 시 받을 데이터 JSON 객체로 생성
+
+    @PostMapping("/signup")                //post 방식-패킷에 입력한 값이 숨겨져서 전달
+    public String signup(@RequestBody SignupReqDto signupReqDto) {
+        System.out.println(signupReqDto);
+        return signupReqDto.getUsername() + "님 회원가입이 완료되었습니다.";
+    }
 
 
-    @PostMapping("/signup")
-    public String signup(@RequestBody )
+
+    //포스트맨 Body - raw - json 선택
+    // send 시 객체 생성자 이름과 보낸 정보의 키(JSon의 키) 이름 일치해야함
+    //header 에 content type 있어야함
 
 
+    //Post 요청 signin 로그인 로직
+    //SigninReqDto => email, password
 
+    @PostMapping("/signin")
+    public String signin(@RequestBody SigninReqDto signinReqDto) {
+        System.out.println(signinReqDto);
+        return "로그인 완료 : " + signinReqDto.getEmail() + "님 반갑습니다.";
+    }
 
 
 
