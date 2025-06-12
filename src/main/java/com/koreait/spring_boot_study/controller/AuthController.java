@@ -117,7 +117,8 @@ public class AuthController {
         return "로그인 완료 : " + signinReqDto.getEmail() + "님 반갑습니다.";
     }
 
-
+    //Response Entity
+    //http 응답 데이터를 커스텀해서 보낼 수 있음
 
 
 
