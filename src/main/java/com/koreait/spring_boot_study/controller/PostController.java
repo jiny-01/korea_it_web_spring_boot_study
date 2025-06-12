@@ -52,7 +52,7 @@ public class PostController {
     public PostController(PostService postService) {
         this.postService = postService;
     }
-    //매개변수로 들어오는 PostService 의 객체는 스프링이 알아서 만들어준 것
+    //매개변수로 들어오는 PostService의 객체는 스프링이 알아서 만들어준 것
 
     @GetMapping("/get")
     public String getPost() {
