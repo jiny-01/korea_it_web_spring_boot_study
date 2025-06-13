@@ -1,7 +1,11 @@
 package com.koreait.spring_boot_study.controller;
 
 import com.koreait.spring_boot_study.dto.SigninReqDto;
+import com.koreait.spring_boot_study.dto.SigninRespDto;
 import com.koreait.spring_boot_study.dto.SignupReqDto;
+import com.koreait.spring_boot_study.dto.SignupRespDto;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -95,11 +99,11 @@ public class AuthController {
 
     //DTO 패키지에 SignupReqDto 만들어서 회원가입 시 받을 데이터 JSON 객체로 생성
 
-    @PostMapping("/signup")                //post 방식-패킷에 입력한 값이 숨겨져서 전달
-    public String signup(@RequestBody SignupReqDto signupReqDto) {
-        System.out.println(signupReqDto);
-        return signupReqDto.getUsername() + "님 회원가입이 완료되었습니다.";
-    }
+//    @PostMapping("/signup")                //post 방식-패킷에 입력한 값이 숨겨져서 전달
+//    public String signup(@RequestBody SignupReqDto signupReqDto) {
+//        System.out.println(signupReqDto);
+//        return signupReqDto.getUsername() + "님 회원가입이 완료되었습니다.";
+//    }
 
 
 
@@ -111,16 +115,61 @@ public class AuthController {
     //Post 요청 signin 로그인 로직
     //SigninReqDto => email, password
 
-    @PostMapping("/signin")
-    public String signin(@RequestBody SigninReqDto signinReqDto) {
-        System.out.println(signinReqDto);
-        return "로그인 완료 : " + signinReqDto.getEmail() + "님 반갑습니다.";
-    }
+//    @PostMapping("/signin")
+//    public String signin(@RequestBody SigninReqDto signinReqDto) {
+//        System.out.println(signinReqDto);
+//        return "로그인 완료 : " + signinReqDto.getEmail() + "님 반갑습니다.";
+//    }
 
     //Response Entity
-    //http 응답 데이터를 커스텀해서 보낼 수 있음
+    //http 응답 전체(데이터)를 커스텀해서 보낼 수 있는 스프링 클래스
+    //HTTP 상태 코드, 응답바디, 응답헤더(설정요소)까지 모두 포함
+
+    @PostMapping("/signin")
+    public ResponseEntity<SigninRespDto> signin(@RequestBody SigninReqDto signinReqDto) {
+        if(signinReqDto.getEmail() == null || signinReqDto.getEmail().trim().isEmpty()) {
+            SigninRespDto signinRespDto = new SigninRespDto("failed", "이메일을 다시 입력");
+            return ResponseEntity.badRequest().body(signinRespDto);
+            //이메일 값이 없거나 or 공백제거한 이메일 값이 없거나
+
+        } else if(signinReqDto.getPassword() == null || signinReqDto.getPassword().trim().isEmpty()) {
+            SigninRespDto signinRespDto = new SigninRespDto("failed", "비밀번호 다시 입력");
+            return ResponseEntity.badRequest().body(signinRespDto);
+        }
 
 
+
+        SigninRespDto signinRespDto = new SigninRespDto("success", "로그인 성공");
+        return ResponseEntity.ok(signinRespDto);    //포스트맨 - 200 OK 로 표기됨
+//        return ResponseEntity.ok().body(signinRespDto);
+//        return ResponseEntity.status(HttpStatus.OK).body(signinRespDto);    status(HttpStatus.OK) - 상태코드 따로 뺀 것
+    }
+    // return 은 요청 입장에선 다 ok 로 되어있어야함 -> 보낼 땐 무조건 OK
+    // 정확한 정보는 프론트에서 확인하도록 함
+    // 원래는 유효성 검사(validate) 시행함 (프론트, 백 둘 다 가능)
+
+    //상태 코드
+
+    //200 OK => 요청 성공
+    //400 Bad Request => 잘못된 요청 (ex. 유효성 실패, Json 파싱 오류)
+    //401 Unauthorized => 인증 실패 (ex. 로그인 안 됨, 토큰 없음) - 인가되지 않은 사용자 로그인
+    //403 Forbidden => 접근 권한 없음 (ex. 관리자만 접근 가능)
+    //404 Not Found => 리소스 없음 (ex. 없는 요청, 잘못된 정보 조회)
+    //409 Conflict => 중복 등으로 인한 충돌 (ex. 이미 존재하는 이메일)
+    //500 Internal Server Error => 서버 내부 오류(코드 문제, 예외 등) - 바로 백서버(소스코드) 확인
+
+    // -> 200 은 정상적으로 됐다
+    // -> 400 은 네가 잘못 보냈다
+    // -> 500 은 서버가 터졌다
+
+    //
+
+    //원래라면 레포 -> 서비스 -> 컨트롤러 순으로 만드는 게 원칙
+    //req dto 랑 resp dto 같아도 하나 더 만들어서 하기를 권장
+    @PostMapping("/signup")
+    public ResponseEntity<SignupRespDto> signup(@RequestBody SignupReqDto signupReqDto) {
+
+    }
 
 
 }
