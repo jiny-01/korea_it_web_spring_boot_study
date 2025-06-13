@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.tymleaf.org">    <!--    타임리프 템플릿-->
+<head>
+    <meta charset="UTF-8">
+    <title>프로필 페이지</title>
+</head>
+<body>
+    <h1 th:text="'안녕하세요, ' + ${username} + '님!'"></h1>
+    <p th:utext="'안녕하세요, ' + ${username} + '님!'"></p>    <!--    u 쓰면 html 태그 인식함-->
+    <p th:if="${isAdult}">성인입니다.</p>                      <!--    {isAdult} true 일때만 나옴, 아니면 아에 안 나옴-->
+    <p th:unless="${isAdult}">미성년자입니다.</p>              <!--    if 조건이 false 일 때 나옴(if 와 반대개념) -->
+    <p th:if="${age >= 19}">19세 이상입니다.</p>              <!--    if 조건 만족할 때만 나옴 -->
+    <tr th:each="user : ${userList}">                       <!--    th : each  => 반복문-->
+        <td th:text="${user.key}"></td>
+        <td th:text="${user.value}"></td>
+        </br>                                               <!--    </br> 줄바꿈 (세로로 나옴) -->
+    </tr>
+    <a th:href="@{/main}">메인페이지로 이동하기</a>            <!--   a : 하이퍼링크 -->
+</body>
+</html>

@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.tymleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>회원가입</title>
+</head>
+<body>
+    <form th:action="@{/signup}" method="post">      <!--    form 안에 있는 정보도 같이 post 로 보냄-->
+        이름: <input type="text" name="name"></br>     <!--    input 입력값의 속성 정의 / name : 키 (name)-->
+        나이: <input type="number" name="age"></br>   <!--    input 입력값의 속성 정의 / name : 키 (age) -->
+        <button type="submit">가입하기</button>        <!--    form 의 이 입력값을 /signup의 post 메소드로 요청보내라-->
+    </form>
+</body>
+</html>
