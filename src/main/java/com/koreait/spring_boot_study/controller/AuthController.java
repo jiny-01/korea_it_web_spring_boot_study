@@ -4,6 +4,9 @@ import com.koreait.spring_boot_study.dto.SigninReqDto;
 import com.koreait.spring_boot_study.dto.SigninRespDto;
 import com.koreait.spring_boot_study.dto.SignupReqDto;
 import com.koreait.spring_boot_study.dto.SignupRespDto;
+import com.koreait.spring_boot_study.repository.AuthRepository;
+import com.koreait.spring_boot_study.service.AuthService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +16,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
+    @Autowired
+    private AuthService authService;
     //RequestParam (쿼리스트링)
     //클라이언트가 URL 쿼리스트링으로 넘긴 값을 메소드 파라미터로 전달
 
@@ -168,8 +173,15 @@ public class AuthController {
     //req dto 랑 resp dto 같아도 하나 더 만들어서 하기를 권장
     @PostMapping("/signup")
     public ResponseEntity<SignupRespDto> signup(@RequestBody SignupReqDto signupReqDto) {
-
+        return ResponseEntity.ok().body(authService.signup(signupReqDto));
     }
 
-
+    //중복 체크 같은 API 는 대부분 200 OK 로 응답하고
+    //응답 본문(JSON) 에 "중복 여부"를 표시
+    //중복체크는 정상적인 요청에 대한 정상적 응답이기 때문에 200 OK 다
+    //이메일이 중복이든 아니든 요청 자체는 정상적으로 처리됐기 때문에 400/409 같은 에러코드를 주지 X
+    //대신 JSON 응답 내부에서 중복됨/가능함 을 구분
+    //그럼 언제 에러 코드(409 Conflict)를 쓰느냐?
+    //그거는 진짜 예외 상황일 때
+    //중복된 이메일로 회원가입을 실제로 시도했을 때 409
 }

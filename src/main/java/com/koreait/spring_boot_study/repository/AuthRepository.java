@@ -1,12 +1,15 @@
 package com.koreait.spring_boot_study.repository;
 
 import com.koreait.spring_boot_study.dto.SignupReqDto;
+import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.Map;
 
 //레포지토리는 확인하기 위한 용도 - 직접 처리하는 것은 아님 => 관심사 분리
+@Repository
 public class AuthRepository {
+
     private final Map<String, String> userdb = new HashMap<>();
 
     public AuthRepository() {
@@ -23,8 +26,12 @@ public class AuthRepository {
     }
 
 
+    //회원가입 진행 - addUser 에 signupReqDto 넘겨서 map 에 추가
     public int addUser(SignupReqDto signupReqDto) {
         userdb.put(signupReqDto.getEmail(), signupReqDto.getUsername());
         return 1;
     }
+
+
+
 }
