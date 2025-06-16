@@ -1,0 +1,19 @@
+RDBMS - 관계형 데이터베이스
+MySQL - 빠르고 가볍고 무료, 설치 쉬움 (포트 3306)
+
+local 127.0.0.1
+
+기본적인 용어
+스키마(schema) - 데이터베이스 단위, 하나의 저장소
+테이블(table) - 데이터를 저장하는 표
+행(Row) - 테이블에 들어가는 한 줄의 데이터(가로)
+열(Column) = 속성 (세로)
+
+
+스키마 만들 때 utf8 mb4 로 선택 , utf8mb4_unicode_ci ;
+navigator 에서 스키마 선택하고 쿼리 작성
+
+PRIMARY KEY (고유키) AUTO_INCREMENT
+
+
+
