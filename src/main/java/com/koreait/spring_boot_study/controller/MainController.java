@@ -56,6 +56,7 @@ public class MainController {
         userList.put("이동윤", "27");
         userList.put("삼동윤", "18");
         userList.put("사동윤", "44");
+
         model.addAttribute("userList", userList);
 
         //addAttribute 로 model 에 넣으면 알아서 profile.html 파일에 넣음
@@ -91,6 +92,13 @@ public class MainController {
         model.addAttribute("message", name + "님, 가입을 환영합니다.");
         return "signup-result";    //signup-result 페이지 반환
 
+    }
+
+    //가입하기 처리
+    @GetMapping("/users")
+    public String userList(Model model) {
+        model.addAttribute("users", users);
+        return "users";                         //html 파일명으로 리턴(users.html)
     }
 
 }
